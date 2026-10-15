@@ -1,0 +1,11 @@
+{
+  "status": "GEOMETRY_AND_ANALYTIC_REFERENCE_ONLY",
+  "openfoam_executed": false,
+  "cht_executed": false,
+  "validated": false,
+  "source": "Qu & Mudawar 2002 Figure 4 visually approximated (except 0.86 bar at Re1672 textual)",
+  "warning": "Paper measures plenum-to-plenum pressure; analytical curve covers channel core only",
+  "paper_case_mesh_cells": 21400,
+  "new_36mm_plate_mesh_cells": 108400,
+  "comparison_required": "3 actual solved meshes x 2 heat fluxes x multiple Re; CFD flow and energy and temperatures"
+}

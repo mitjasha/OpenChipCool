@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openchipcool"
+version = "0.4.0"
+description = "Open-source multi-scale semiconductor cooling benchmark: 3D FEM, reduced RC network and 1D cooling loop"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "OpenChipCool contributors"}]
+dependencies = ["numpy>=1.24", "scipy>=1.10", "matplotlib>=3.7"]
+
+[project.optional-dependencies]
+dashboard = ["streamlit>=1.35", "plotly>=5.18", "pandas>=2.0"]
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+openchipcool = "openchipcool.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

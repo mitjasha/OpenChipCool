@@ -1,0 +1,16 @@
+{
+  "status": "geometry_and_dictionary_generation_only",
+  "NOT_OPENFOAM_VALIDATED": true,
+  "mesh_cells_planned": 108400,
+  "condition": {
+    "Re": 1631.8062891063187,
+    "qeff_W_cm2": 61.728395061728406,
+    "bulk_velocity_m_s": 3.747861002029616,
+    "flow_L_min": 3.9999999999999987,
+    "massflow_kg_s": 0.06637999999999998,
+    "power_W": 800.0,
+    "adiabatic_outlet_rise_K": 2.884591392581207,
+    "Tin_C": 30.0,
+    "outlet_energy_upper_C": 32.88459139258121
+  }
+}

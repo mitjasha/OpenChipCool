@@ -1,0 +1,22 @@
+{
+  "stage": "CASE_GENERATED_NOT_SOLVED",
+  "cfdsimulation_completed": false,
+  "experimentally_validated": false,
+  "condition": {
+    "Re": 1454.0,
+    "qeff_W_cm2": 100.0,
+    "bulk_velocity_m_s": 4.746114359459217,
+    "flow_L_min": 0.9849410844159742,
+    "massflow_kg_s": 0.016400910623999995,
+    "power_W": 447.64,
+    "adiabatic_outlet_rise_K": 6.5295709211535735,
+    "Tin_C": 15.0,
+    "outlet_energy_upper_C": 21.529570921153574
+  },
+  "planned_hex_cells": 171200,
+  "level": "medium",
+  "plenum_geometry": "NOT PRESENT",
+  "cover_conduction": "NOT PRESENT",
+  "temperature_dependent_viscosity": "NOT IMPLEMENTED",
+  "tc_holes_and_slots": "NOT PRESENT"
+}

@@ -1,0 +1,6 @@
+// First run the Python benchmark to create results/OpenChipCoolLoop.mo.
+loadModel(Modelica);
+loadFile("results/OpenChipCoolLoop.mo");
+checkModel(OpenChipCoolLoop);
+simulate(OpenChipCoolLoop, startTime=0, stopTime=60, numberOfIntervals=600, tolerance=1e-6, outputFormat="csv");
+getErrorString();

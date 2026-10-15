@@ -17,10 +17,11 @@ explores workload transients and a pump-flow fault.
 
 ## v0.4 — experimental-validation workflow, still **NOT RUN**
 
-**Public GitHub repository was not created from this environment:** the connected
-GitHub integration has repository **write** capability but not **create** capability;
-no existing repositories were modified. After the owner creates an empty `OpenChipCool`
-repository, push this project's contents or request a connected upload.
+**Repository:** https://github.com/mitjasha/OpenChipCool.
+The initial repository import preserves the v0.4 source and reproducible workflow;
+the large generated HTML report and VTK point cloud are distributed in the
+archived v0.4 release bundle rather than checked into Git. CFD validation
+remains unperformed until OpenFOAM runs are available.
 
 **OpenFOAM.com was not available** (including `blockMesh`; the attempted executable
 check returned exit code 2), and external package hosts were not resolvable.

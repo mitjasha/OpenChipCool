@@ -1,0 +1,1 @@
+This document has been superseded by [literature_and_vv.md](literature_and_vv.md). See this source-specific V&V report for the current geometry-aligned mesh refinement and paper-based convection approximation.

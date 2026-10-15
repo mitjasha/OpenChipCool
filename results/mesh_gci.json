@@ -1,0 +1,27 @@
+{
+  "method": "nested three-dimensional interface-aligned grids; 1.25 safety factor; not a validation",
+  "refinements": [
+    1,
+    2,
+    3
+  ],
+  "source": "Celik et al. 2008 doi:10.1115/1.2960953",
+  "h_W_m2K": 80567.58400587253,
+  "observables": {
+    "mean_die_C": {
+      "status": "estimated; asymptotic assumption must be checked",
+      "observed_order": 1.1521983294948765,
+      "gci_fine_percent": 1.6695873826965884,
+      "extrapolated_value": 79.12937078559423,
+      "asymptotic_ratio": 1.0080174492495881
+    },
+    "max_hotspot_C": {
+      "status": "estimated; asymptotic assumption must be checked",
+      "observed_order": 1.7312906149984486,
+      "gci_fine_percent": 3.226415461861742,
+      "extrapolated_value": 144.0658562042545,
+      "asymptotic_ratio": 1.0269778974914816
+    }
+  },
+  "geometry_invariant": true
+}

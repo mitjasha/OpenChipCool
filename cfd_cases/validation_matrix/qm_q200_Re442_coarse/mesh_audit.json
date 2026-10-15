@@ -1,0 +1,16 @@
+{
+  "status": "block_topology_combinatorics_pass_NOT_OpenFOAM_checkMesh",
+  "blocks": 86,
+  "external_faces": 262,
+  "internal_faces": 127,
+  "copper_water_interface_block_faces": 63,
+  "patches": {
+    "inlet": 21,
+    "outlet": 21,
+    "copperEnds": 130,
+    "sideWalls": 4,
+    "heater": 43,
+    "cover": 43
+  },
+  "warning": "Does not check geometric normals, Jacobians, mesh non-orthogonality or solver coupling"
+}

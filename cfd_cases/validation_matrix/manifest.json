@@ -1,0 +1,192 @@
+{
+  "paper": "https://doi.org/10.1016/S0017-9310(01)00337-4",
+  "count": 18,
+  "source_figure_numbers": [
+    4,
+    5,
+    7
+  ],
+  "status": "INPUTS_ONLY_NO_SIMULATION",
+  "cases": [
+    {
+      "case_id": "qm_q100_Re226_coarse",
+      "mesh": "coarse",
+      "Re": 226.0,
+      "qeff_W_cm2": 100.0,
+      "cells_planned": 21400,
+      "planned_flow_L_min": 0.1530926307276549,
+      "power_W": 447.64,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q100_Re226_medium",
+      "mesh": "medium",
+      "Re": 226.0,
+      "qeff_W_cm2": 100.0,
+      "cells_planned": 171200,
+      "planned_flow_L_min": 0.1530926307276549,
+      "power_W": 447.64,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q100_Re226_fine",
+      "mesh": "fine",
+      "Re": 226.0,
+      "qeff_W_cm2": 100.0,
+      "cells_planned": 1369600,
+      "planned_flow_L_min": 0.1530926307276549,
+      "power_W": 447.64,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q100_Re890_coarse",
+      "mesh": "coarse",
+      "Re": 890.0,
+      "qeff_W_cm2": 100.0,
+      "cells_planned": 21400,
+      "planned_flow_L_min": 0.6028869086177558,
+      "power_W": 447.64,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q100_Re890_medium",
+      "mesh": "medium",
+      "Re": 890.0,
+      "qeff_W_cm2": 100.0,
+      "cells_planned": 171200,
+      "planned_flow_L_min": 0.6028869086177558,
+      "power_W": 447.64,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q100_Re890_fine",
+      "mesh": "fine",
+      "Re": 890.0,
+      "qeff_W_cm2": 100.0,
+      "cells_planned": 1369600,
+      "planned_flow_L_min": 0.6028869086177558,
+      "power_W": 447.64,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q100_Re1454_coarse",
+      "mesh": "coarse",
+      "Re": 1454.0,
+      "qeff_W_cm2": 100.0,
+      "cells_planned": 21400,
+      "planned_flow_L_min": 0.9849410844159742,
+      "power_W": 447.64,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q100_Re1454_medium",
+      "mesh": "medium",
+      "Re": 1454.0,
+      "qeff_W_cm2": 100.0,
+      "cells_planned": 171200,
+      "planned_flow_L_min": 0.9849410844159742,
+      "power_W": 447.64,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q100_Re1454_fine",
+      "mesh": "fine",
+      "Re": 1454.0,
+      "qeff_W_cm2": 100.0,
+      "cells_planned": 1369600,
+      "planned_flow_L_min": 0.9849410844159742,
+      "power_W": 447.64,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q200_Re442_coarse",
+      "mesh": "coarse",
+      "Re": 442.0,
+      "qeff_W_cm2": 200.0,
+      "cells_planned": 21400,
+      "planned_flow_L_min": 0.29941125124612156,
+      "power_W": 895.28,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q200_Re442_medium",
+      "mesh": "medium",
+      "Re": 442.0,
+      "qeff_W_cm2": 200.0,
+      "cells_planned": 171200,
+      "planned_flow_L_min": 0.29941125124612156,
+      "power_W": 895.28,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q200_Re442_fine",
+      "mesh": "fine",
+      "Re": 442.0,
+      "qeff_W_cm2": 200.0,
+      "cells_planned": 1369600,
+      "planned_flow_L_min": 0.29941125124612156,
+      "power_W": 895.28,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q200_Re864_coarse",
+      "mesh": "coarse",
+      "Re": 864.0,
+      "qeff_W_cm2": 200.0,
+      "cells_planned": 21400,
+      "planned_flow_L_min": 0.5852744820738665,
+      "power_W": 895.28,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q200_Re864_medium",
+      "mesh": "medium",
+      "Re": 864.0,
+      "qeff_W_cm2": 200.0,
+      "cells_planned": 171200,
+      "planned_flow_L_min": 0.5852744820738665,
+      "power_W": 895.28,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q200_Re864_fine",
+      "mesh": "fine",
+      "Re": 864.0,
+      "qeff_W_cm2": 200.0,
+      "cells_planned": 1369600,
+      "planned_flow_L_min": 0.5852744820738665,
+      "power_W": 895.28,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q200_Re1220_coarse",
+      "mesh": "coarse",
+      "Re": 1220.0,
+      "qeff_W_cm2": 200.0,
+      "cells_planned": 21400,
+      "planned_flow_L_min": 0.8264292455209687,
+      "power_W": 895.28,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q200_Re1220_medium",
+      "mesh": "medium",
+      "Re": 1220.0,
+      "qeff_W_cm2": 200.0,
+      "cells_planned": 171200,
+      "planned_flow_L_min": 0.8264292455209687,
+      "power_W": 895.28,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    },
+    {
+      "case_id": "qm_q200_Re1220_fine",
+      "mesh": "fine",
+      "Re": 1220.0,
+      "qeff_W_cm2": 200.0,
+      "cells_planned": 1369600,
+      "planned_flow_L_min": 0.8264292455209687,
+      "power_W": 895.28,
+      "cfd_status": "CASE_GENERATED_NOT_SOLVED"
+    }
+  ]
+}

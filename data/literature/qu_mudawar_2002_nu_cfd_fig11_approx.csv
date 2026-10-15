@@ -1,0 +1,8 @@
+x_m,Nu_bottom_approx,Nu_side_approx,type,source,relative_reading_uncertainty
+0.0,19.0,30.0,CFD curve approximate visual extraction; NOT experiment,Qu and Mudawar 2002 Fig 11c Re=890,0.2
+0.002,12.0,17.0,CFD curve approximate visual extraction; NOT experiment,Qu and Mudawar 2002 Fig 11c Re=890,0.2
+0.005,8.1,11.0,CFD curve approximate visual extraction; NOT experiment,Qu and Mudawar 2002 Fig 11c Re=890,0.2
+0.01,6.3,8.7,CFD curve approximate visual extraction; NOT experiment,Qu and Mudawar 2002 Fig 11c Re=890,0.2
+0.02,5.0,7.8,CFD curve approximate visual extraction; NOT experiment,Qu and Mudawar 2002 Fig 11c Re=890,0.2
+0.03,4.6,7.7,CFD curve approximate visual extraction; NOT experiment,Qu and Mudawar 2002 Fig 11c Re=890,0.2
+0.0448,4.3,7.4,CFD curve approximate visual extraction; NOT experiment,Qu and Mudawar 2002 Fig 11c Re=890,0.2

@@ -1,0 +1,19 @@
+Re,qeff_W_cm2,dp_bar_visual_approx,source,reading_uncertainty_bar,type
+140,100,0.02,"Qu and Mudawar 2002 Fig 4a, qeff=100 W/cm2",0.05,"approximate Fig4(a) experimental marker; reference only, not raw digital data"
+250,100,0.045,"Qu and Mudawar 2002 Fig 4a, qeff=100 W/cm2",0.05,"approximate Fig4(a) experimental marker; reference only, not raw digital data"
+400,100,0.095,"Qu and Mudawar 2002 Fig 4a, qeff=100 W/cm2",0.05,"approximate Fig4(a) experimental marker; reference only, not raw digital data"
+550,100,0.145,"Qu and Mudawar 2002 Fig 4a, qeff=100 W/cm2",0.05,"approximate Fig4(a) experimental marker; reference only, not raw digital data"
+700,100,0.208,"Qu and Mudawar 2002 Fig 4a, qeff=100 W/cm2",0.05,"approximate Fig4(a) experimental marker; reference only, not raw digital data"
+850,100,0.275,"Qu and Mudawar 2002 Fig 4a, qeff=100 W/cm2",0.05,"approximate Fig4(a) experimental marker; reference only, not raw digital data"
+1000,100,0.359,"Qu and Mudawar 2002 Fig 4a, qeff=100 W/cm2",0.05,"approximate Fig4(a) experimental marker; reference only, not raw digital data"
+1150,100,0.45,"Qu and Mudawar 2002 Fig 4a, qeff=100 W/cm2",0.05,"approximate Fig4(a) experimental marker; reference only, not raw digital data"
+1300,100,0.555,"Qu and Mudawar 2002 Fig 4a, qeff=100 W/cm2",0.05,"approximate Fig4(a) experimental marker; reference only, not raw digital data"
+1450,100,0.685,"Qu and Mudawar 2002 Fig 4a, qeff=100 W/cm2",0.05,"approximate Fig4(a) experimental marker; reference only, not raw digital data"
+1600,100,0.8,"Qu and Mudawar 2002 Fig 4a, qeff=100 W/cm2",0.05,"approximate Fig4(a) experimental marker; reference only, not raw digital data"
+1672,100,0.86,"Qu and Mudawar 2002 Fig 4a, qeff=100 W/cm2",0.05,"approximate Fig4(a) experimental marker; reference only, not raw digital data"
+385,200,0.1,"Qu and Mudawar 2002 Fig4(a), qeff=200 W/cm2",0.05,manual approximate reading of published experimental plot (illustrative)
+442,200,0.12,"Qu and Mudawar 2002 Fig4(a), qeff=200 W/cm2",0.05,manual approximate reading of published experimental plot (illustrative)
+685,200,0.23,"Qu and Mudawar 2002 Fig4(a), qeff=200 W/cm2",0.05,manual approximate reading of published experimental plot (illustrative)
+864,200,0.3,"Qu and Mudawar 2002 Fig4(a), qeff=200 W/cm2",0.05,manual approximate reading of published experimental plot (illustrative)
+1220,200,0.48,"Qu and Mudawar 2002 Fig4(a), qeff=200 W/cm2",0.05,manual approximate reading of published experimental plot (illustrative)
+1289,200,0.51,"Qu and Mudawar 2002 Fig4(a), qeff=200 W/cm2",0.05,manual approximate reading of published experimental plot (illustrative)

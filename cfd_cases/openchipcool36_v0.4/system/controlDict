@@ -1,0 +1,77 @@
+FoamFile { version 2.0; format ascii; class dictionary; object controlDict; }
+application chtMultiRegionSimpleFoam;
+startFrom startTime;
+startTime 0;
+stopAt endTime;
+endTime 2500;
+deltaT 1;
+writeControl timeStep;
+writeInterval 200;
+purgeWrite 2;
+writeFormat ascii;
+writePrecision 8;
+runTimeModifiable yes;
+functions
+{
+    inlet_p_areaAverage
+    {
+        type surfaceFieldValue;
+        libs (fieldFunctionObjects);
+        region water;
+        regionType patch;
+        name inlet;
+        operation areaAverage;
+        fields (p);
+        writeControl timeStep;
+        writeInterval 20;
+    }
+    outlet_p_areaAverage
+    {
+        type surfaceFieldValue;
+        libs (fieldFunctionObjects);
+        region water;
+        regionType patch;
+        name outlet;
+        operation areaAverage;
+        fields (p);
+        writeControl timeStep;
+        writeInterval 20;
+    }
+    outlet_mass_flow
+    {
+        type surfaceFieldValue;
+        libs (fieldFunctionObjects);
+        region water;
+        regionType patch;
+        name outlet;
+        operation sum;
+        fields (phi);
+        writeControl timeStep;
+        writeInterval 20;
+    }
+    inlet_mass_flow
+    {
+        type surfaceFieldValue;
+        libs (fieldFunctionObjects);
+        region water;
+        regionType patch;
+        name inlet;
+        operation sum;
+        fields (phi);
+        writeControl timeStep;
+        writeInterval 20;
+    }
+    outlet_T_mass_weighted
+    {
+        type surfaceFieldValue;
+        libs (fieldFunctionObjects);
+        region water;
+        regionType patch;
+        name outlet;
+        operation weightedAverage;
+        weightField phi;
+        fields (T);
+        writeControl timeStep;
+        writeInterval 20;
+    }
+}
