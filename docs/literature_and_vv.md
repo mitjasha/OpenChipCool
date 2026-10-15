@@ -1,4 +1,4 @@
-# OpenChipCool v0.2: Sources, model provenance and V&V plan
+# Sources, model provenance and numerical verification
 
 ## Source 1: direct experimental measurements + CFD (primary)
 
@@ -11,7 +11,7 @@ Open author PDF: https://engineering.purdue.edu/mudawar/files/articles-all/2002/
 **Experimental**: oxygen-free copper coldplate; 21 channels, width 231 um,
 height 713 um, 44.8 mm long, 10 mm wide footprint; water at approx 15 °C,
 100 and 200 W/cm2 planform heat flux; measured pressure loss (Fig. 4a),
-fluid outlet temperature (Fig. 5), thermocouple temperatures (Fig. 6).
+fluid outlet temperature (Fig. 5), thermocouple temperature rises (Fig. 7).
 139 <= Re <= 1672 in the 100 W/cm2 experiments; 385 <= Re <= 1289
 for 200 W/cm2. Fig 4 experiment readings are **visually approximated** in
 `data/literature/qu_mudawar_2002_pressure_approx.csv`, NOT original raw data
@@ -21,8 +21,9 @@ are only digitization estimates, not source-supplied instrument uncertainties.
 **CFD**: Figure 11(c) is the AUTHORS' conjugate-CFD output, not measurement.
 It shows axially averaged Nu on bottom and side walls at Re=890, 100 W/cm2.
 Our visually approximated traces in `qu_mudawar_2002_nu_cfd_fig11_approx.csv`
-carry rough *reading* uncertainty of 20% and require independent digitization
-for serious usage. The coldplate surrogate integrates these axial Nu profiles.
+carry rough *reading* uncertainty of 20%. Independent higher-resolution
+digitization is planned to reduce that uncertainty. The coldplate surrogate
+integrates these axial Nu profiles.
 At other Re, Graetz-like `Re^(1/3)` scaling of entry enhancement is **our own
 assumption**, not a Qu/Mudawar fitted correlation. At Re below 139 we apply a
 linear reduction to zero. This is **unvalidated model-form extrapolation**.
@@ -35,10 +36,10 @@ and a uniform fixed bulk-fluid temperature:
     h_equiv = (k_water / D_h) * [Nu_bottom*A_channel_bottom
                                     + Nu_side*A_channel_sides] / A_planform
 
-It should NOT be called a measured heat-transfer coefficient for our package.
-It is a literature-CFD-anchored *idealized Robin equivalent*. Wall-dependent
-film coefficients, copper fin efficiency, coolant heating and manifolds must
-be modeled before making physical design claims. Experimental pressure losses
+This is a literature-CFD-anchored *idealized Robin equivalent*, rather than
+a measured package coefficient. Wall-dependent film coefficients, copper fin
+efficiency, coolant heating and manifolds are outside this approximation.
+Experimental pressure losses
 from Fig 4 are stored *for independent benchmarking only*, not transferred
 as the pressure drop of a 108-channel system.
 
@@ -50,7 +51,8 @@ Mass Transfer **48**, 1688–1704.
 DOI: https://doi.org/10.1016/j.ijheatmasstransfer.2004.11.019
 Water experiments, 194–534 um widths, Re about 300–3500. Numerics vs measured
 temperature trends average about 5% deviation, with inlet-condition matching.
-Do not transfer their results as exact validation of our new geometry.
+Their geometry and inlet conditions differ from the OpenChipCool plate, so
+these observations provide context rather than direct validation.
 
 ## Source 3: thermally developing CFD correlation research
 
@@ -58,9 +60,9 @@ Lee, P.-S.; Garimella, S. V. (2006). *Thermally developing flow and heat
 transfer in rectangular microchannels of different aspect ratios*.
 International Journal of Heat and Mass Transfer **49**, 3060–3067.
 DOI: https://doi.org/10.1016/j.ijheatmasstransfer.2006.02.011
-A better future model should implement paper's full Nu correlation with the
-same boundary condition (uniform wall T vs uniform q'') and channel aspect
-ratio, NOT interpret Re^(1/3) as a fitted expression from this source.
+A planned extension is the paper's full Nu correlation with matching wall
+boundary conditions and channel aspect ratio. The current Re^(1/3) scaling
+is a separate model assumption rather than a fitted expression from this source.
 
 ## Source 4: discretization verification standards
 
@@ -79,8 +81,8 @@ surface-quadrature die temperature, (2) maximum mesh-node top temperature,
 Richardson + safety-factor 1.25 GCI are calculated only for monotone cases
 with positive observed order. For noisy or oscillatory data GCI is flagged
 inconclusive. It is NOT a guarantee of asymptotic behavior with three grids,
-and peak values require extra care. Repeat with denser meshes / independent
-solver before reporting a certified temperature.
+and peak-temperature estimates are particularly mesh-sensitive. Denser meshes
+and comparison with an independent solver are planned cross-checks.
 
 ## OpenModelica status and execution
 
@@ -95,10 +97,11 @@ python scripts/verify_openmodelica.py
 `verify_openmodelica.py` checks for `omc`, calls the official scripting
 API `loadFile/checkModel/simulate`, checks errors and requires a time-series
 CSV output. If `omc` isn't installed it exits code 2 (UNVERIFIED, not PASS).
-Install from https://openmodelica.org/download/download-linux/ and re-run.
+Installation options are documented on the
+[OpenModelica download page](https://openmodelica.org/download/download-linux/).
 
 **Modelica runs a 9-state lumped ODE**, not Modelica.Fluid pipes; it contains
-no hydraulic pump pressure curve or inlet/outlet water transport. Numerical
-comparison against Python should be done after confirming compiled Modelica
-simulation and aligning time integrators / power scenarios. Static text tests
-of a `.mo` file never certify compilation or simulation.
+no hydraulic pump pressure curve or inlet/outlet water transport. The verification
+script compares compiled simulation outputs with the Python reference for
+the same scenario. Static model-text checks cover export structure separately
+from compilation and execution.

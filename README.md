@@ -1,250 +1,238 @@
-# OpenChipCool — Multiscale Thermal Digital Twin
+# OpenChipCool
 
-**v0.4 — Reproducible open-source CAE portfolio project**: a four-chiplet thermal
-benchmark connecting 3D heat-conduction FEM, a compact transient RC model and
-a simplified 1D coolant loop (Python / OpenModelica). A Streamlit dashboard
-explores workload transients and a pump-flow fault.
+**Multiscale thermal modeling for liquid-cooled chiplet packages.**
 
-> **Engineering status: numerical demonstration — NOT experimental validation.**
-> This model represents a made-up 800 W accelerator, not actual Semidynamics
-> or other commercial chip data. In particular, the convective coefficient is
-> a simplified *equivalent* HTC anchored to published CFD Nusselt curves
-> (Qu & Mudawar, 2002), **not** independently validated for this package.
+OpenChipCool connects a 3D finite-element heat-conduction model, a compact
+thermal RC network and a simplified liquid-cooling loop. It explores how
+uneven chip power, workload changes and reduced coolant flow affect the
+temperatures of a four-chiplet package.
+
+The project includes Python simulation tools, a Streamlit dashboard,
+Modelica export and parametric OpenFOAM case generation for microchannel
+cold plates. Current version: **0.4.0**.
 
 ![Steady 3D FEM temperature distribution](results/temperature_field.png)
 
-![Representative FEM/RC hold-out benchmark](results/benchmark.png)
+## Capabilities
 
-## v0.4 — experimental-validation workflow, still **NOT RUN**
+| Component | What it does |
+|---|---|
+| 3D thermal FEM | Steady and transient conduction through silicon, TIM, epoxy and copper using linear tetrahedral elements |
+| Chip power maps | Four independently powered dies with spatially concentrated hotspots |
+| Reduced thermal model | Fits an eight-node RC network to FEM transients and evaluates it on a separate power sequence |
+| Cooling loop | Couples the RC network to a well-mixed coolant volume and a constant-UA radiator |
+| Interactive dashboard | Explores load steps, chip power pulses, power surges and pump-flow reduction; exports CSV traces |
+| Modelica export | Generates a standalone lumped loop using the same RC coefficients as Python |
+| CFD preparation | Generates copper/water OpenFOAM cases for a 21-channel literature benchmark and a 108-channel, 36 mm plate |
+| Numerical checks | Energy balances, geometry-aligned mesh refinement, conditional GCI estimates and FEM/RC hold-out comparison |
 
-**Repository:** https://github.com/mitjasha/OpenChipCool.
-The initial repository import preserves the v0.4 source and reproducible workflow;
-the large generated HTML report and VTK point cloud are distributed in the
-archived v0.4 release bundle rather than checked into Git. CFD validation
-remains unperformed until OpenFOAM runs are available.
-
-**OpenFOAM.com was not available** (including `blockMesh`; the attempted executable
-check returned exit code 2), and external package hosts were not resolvable.
-Consequently no mesh was checked by OpenFOAM, no actual CHT solution or measured
-comparison exists, and the entire chain is **not experimentally validated**.
-
-New in v0.4:
-
-- [Detailed Russian validation plan](docs/validation_plan_RU.md): literature sources,
-  published Fig. 4, 5 and 7 observables, physical gaps in the model, and
-  evidence-based acceptance conditions.
-- `scripts/build_validation_matrix.py`: 18 **input** cases, six published
-  operating-point families × three physically refined hex meshes.
-- `scripts/run_openfoam_matrix.py --execute`: fail-closed meshing/region check
-  and solver runner, stores real log files *if a solver is available*.
-- `water_properties.py` + `thermophysicalProperties`: IAPWS SR6-08(2011)
-  tabulated temperature-dependent water viscosity/thermal conductivity,
-  checked in Python against a published verification point; OpenFOAM runtime
-  compatibility has not yet been assessed.
-- `controlDict` function objects for patch area-average pressure, mass flow,
-  mass-weighted outlet water temperature, and four copper thermocouple positions.
-- `scripts/extract_openfoam_result.py` and `scripts/validate_all_figures.py`
-  refuse to manufacture CFD measurements from analytical or paper data.
-  Published graph readings are manually estimated and carry indicative
-  uncertainty columns — not authors' raw experimental data.
-- Standalone Fig. 5 and Fig. 7 *reference-only* plots labelled **NOT CFD**.
-
-Run after installing this Python project:
-
-```bash
-python scripts/build_validation_matrix.py --output cfd_cases/validation_matrix
-python scripts/plot_figure_references.py       # literature/energy only; NOT CFD
-pytest -q
-# On a sourced, actually installed OpenFOAM.com v2312 host ONLY:
-python scripts/run_openfoam_matrix.py cfd_cases/validation_matrix/qm_q100_Re890_coarse --execute
-```
-
-Do not characterize the v0.4 benchmark as complete experimental validation:
-upper polycarbonate cover conduction, the three deep transverse slots,
-thermocouple holes and the physical inlet/outlet plenums are still absent
-from the generated core model. Numerically validated **core CHT**, once run,
-would not be equivalent to experimental validation of the full test fixture.
-
-![Fig. 5 paper reference markers and energy balance, not CFD](results/cfd/fig5_reference_energy_NOT_CFD.png)
-
-![Fig. 7 paper reference markers, not CFD](results/cfd/fig7_reference_q100_NOT_CFD.png)
-
-## v0.3 extension: Qu & Mudawar (2002) OpenFOAM CHT benchmark (prepared, not solved)
-
-A new CHT case generator creates a **21-channel copper/water conformal blockMesh** modeled after Qu & Mudawar, *IJHMT* 45 (2002), DOI https://doi.org/10.1016/S0017-9310(01)00337-4. It also creates a deliberately separate **36 × 36 mm, 108-channel cold-plate concept** at 800 W, 30°C coolant and 4 L/min. These are **not CFD results**: `chtMultiRegionSimpleFoam`, `blockMesh`, `checkMesh` and `omc` are unavailable in this runtime. The original experimental plenums, thermocouple holes, heater slots and conductive cover are not fully modeled, so the initial OpenFOAM core is **not** a complete reproduction of the experimental test fixture.
-
-**New deliverables:** 21/108-channel parametrized geometry generator, 3 systematic mesh levels, audited block-face topology, region and boundary-condition scaffold for OpenFOAM.com v2312, source-annotated approximate pressure markers, strictly labeled analytical laminar baseline chart, and fail-closed CFD-vs-experiment comparison script. **No CHT validation claim or replacement of the earlier placeholder `h(flow)` is justified yet.**
-
-```bash
-python scripts/prepare_openfoam.py --profile paper --level coarse --Re 890 --qeff 100 --case cfd_cases/qm890
-python scripts/cfd_reference_report.py         # explicitly analytical, NOT CFD
-# ONLY when an OpenFOAM.com toolchain is installed and sourced:
-python scripts/prepare_openfoam.py --profile paper --level coarse --Re 890 --qeff 100 --case cfd_cases/qm890 --mesh
-# inspect the generated boundary conditions, then run the installed steady CHT solver
-```
-
-See [full experiment-to-CFD protocol](docs/qu_mudawar_openfoam_protocol.md) and [honest evidence status](docs/cfd_status.md).
-
-![21-channel nominal copper/water cross-section](results/cfd/geometry_paper.png)
-
-![New 36-mm design nominal copper/water cross-section](results/cfd/geometry_design36.png)
-
-![Qu & Mudawar approximate pressure measurements versus analytical channel-only model — no CFD solution](results/cfd/pressure_reference_analytical_only.png)
-
-## What is implemented (iteration 2)
-
-| Capability | Implementation | Current scope |
-|---|---|---|
-| 3D thermal FEM | Conforming, linear-tetrahedral sparse Galerkin solver using NumPy/SciPy | Real 3D steady and transient conduction; silicon die islands, epoxy mold, TIM, copper base |
-| Heterogeneous power maps | Four independently powered chiplets, offset Gaussian hotspots | Source normalized to the exact supplied power per die |
-| Reduced RC | 4 die junction-average + 4 copper-quadrant thermal nodes | Physical positive R/C model; fit to FEM training; reported separate hold-out error |
-| 1D liquid-cooling loop | Well-mixed coolant capacitance, coldplate heat transfer, constant-UA radiator | Python and exported standalone OpenModelica model; unvalidated pump-stop h(flow) extrapolation |
-| Dashboard | Streamlit + Plotly | Workload, die power and pump-flow fault; uses fast RC model only |
-| Verification | Pytest, stationary and transient energy conservation, mesh-study CLI | **No** experimental validation or own CFD; paper CFD Nu / unvalidated flow extrapolation; no pump curve |
+![FEM and RC temperatures on a separate power sequence](results/benchmark.png)
 
 ## Quick start
 
-Python 3.10+:
+Requires **Python 3.10 or newer**. OpenFOAM and OpenModelica are optional;
+the Python benchmark and dashboard run independently of them.
 
 ```bash
+git clone https://github.com/mitjasha/OpenChipCool.git
+cd OpenChipCool
 python -m venv .venv
-source .venv/bin/activate                  # Windows: .venv\\Scripts\\activate
-python -m pip install -e '.[dashboard,dev]'
-pytest -q
+```
+
+Activate the environment on Linux or macOS:
+
+```bash
+source .venv/bin/activate
+```
+
+Or in Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Install the project and run the benchmark and dashboard:
+
+```bash
+python -m pip install -e ".[dashboard,dev]"
 python -m openchipcool.cli benchmark --refinement 2 --output results
 streamlit run dashboard.py
 ```
 
-Generated files:
+The benchmark generates the RC calibration consumed by the dashboard.
+Before calibration, the dashboard uses parameters estimated from geometry.
+For a smaller initial run, use `--refinement 1`.
 
-- `results/benchmark.png` — FEM vs RC **unseen** power transient, plus FEM
-  hotspot peaks (which are *not* predicted by the RC model).
-- `results/holdout_comparison.csv` — die averages and peaks vs time.
-- `results/steady_temperature_points.csv` — 3D FEM nodal temperature field.
-- `results/steady_temperature.vtk` — open directly in ParaView.
-- `results/temperature_field.png` — die-top view and vertical FEM temperature slice.
-- `results/mesh_study_aligned.csv`, `.png` and `mesh_gci.json` — 3D systematic refinement and cautious GCI estimates (not a convergence certificate).
-- `results/interactive_report.html` — self-contained Plotly RC/1D scenario viewer,
-  when Plotly is installed (no Streamlit server needed).
-- `results/benchmark_summary.json` — mesh, energy balance, held-out error.
-- `results/rc_calibration.json` — calibrated parameters consumed by dashboard.
-- `results/OpenChipCoolLoop.mo` — Modelica loop exported from **the same RC**.
-
-Explore mesh dependence separately:
+Run the Python checks and mesh study separately:
 
 ```bash
+python -m pytest -q
 python -m openchipcool.cli mesh-study --refinements 1,2,3 --output results
 ```
 
-The new mesh study aligns all chip edges and three material layers and
-refines all axes. It reports `results/mesh_gci.json` and
-`results/mesh_study_aligned.csv` plus a figure. Use GCI cautiously;
-three grids cannot guarantee asymptotic convergence for peak temperatures.
+## Model structure
+
+```text
+Four spatial die power maps
+            |
+3D tetrahedral thermal FEM ---- mesh and energy checks
+            |
+Four die-average temperature histories
+            |
+Eight-node thermal RC network ---- separate hold-out comparison
+            |
+     +------+------+
+     |             |
+Python coolant   Modelica coolant
+loop            loop (.mo)
+     |
+Streamlit dashboard and interactive HTML report
+```
+
+The FEM solver uses NumPy and SciPy. The reduced model contains four die
+nodes and four copper-quadrant nodes; coupling it to the coolant adds a
+ninth thermal state. The dashboard runs this reduced model, while the 3D
+calculation and RC fitting run through the benchmark command.
+
+## Reference configuration
+
+| Parameter | Value |
+|---|---:|
+| Copper base | 36 × 36 × 3 mm |
+| Silicon dies | Four, each 12 × 12 × 0.5 mm; 14 mm pitch |
+| Thermal interface | 0.1 mm; conductivity 5 W/(m·K) |
+| Epoxy filler conductivity | 0.7 W/(m·K) |
+| Silicon conductivity | 130 W/(m·K) |
+| Reference power | 800 W total |
+| Reference coolant inlet | 30 °C |
+| Reference flow | 4 L/min |
+| Coolant volume | 10 L equivalent water capacity |
+| Radiator conductance | 300 W/K |
+| Illustrative temperature threshold | 95 °C |
+
+This is a synthetic package configuration. Its equivalent cold-plate
+convection coefficient is derived from approximate readings of published
+CFD Nusselt curves in Qu & Mudawar (2002), with idealized fin and coolant
+conditions. It is not a measured coefficient for the 36 mm plate.
+
+## Generated outputs
+
+The benchmark writes its outputs to `results/` by default:
+
+| File | Contents |
+|---|---|
+| `benchmark.png`, `holdout_comparison.csv` | FEM/RC comparison on a power sequence separate from training |
+| `temperature_field.png` | Die-top view and a vertical FEM temperature slice |
+| `steady_temperature_points.csv`, `steady_temperature.vtk` | Nodal temperature field; the VTK file opens in ParaView |
+| `benchmark_summary.json`, `rc_calibration.json` | Numerical checks, comparison errors and fitted RC parameters |
+| `interactive_report.html` | Standalone Plotly viewer, generated when Plotly is installed |
+| `OpenChipCoolLoop.mo` | Exported Modelica loop |
+
+The mesh-study command additionally produces `mesh_study_aligned.csv`,
+`mesh_study_aligned.png` and `mesh_gci.json`. Large HTML and field files can
+be generated locally with the commands above.
 
 ## OpenModelica
 
-The `.mo` file is generated by the benchmark so its RC coefficients match the
-Python model. If `omc` is installed:
+After generating `results/OpenChipCoolLoop.mo`, an installed `omc` can run
+the model and compare its final die temperatures with the Python ODE:
 
 ```bash
-omc --version
-omc modelica/simulate.mos
+python scripts/verify_openmodelica.py
 ```
 
-To attempt an execution check: `python scripts/verify_openmodelica.py`.
-This runs `results/OpenChipCoolLoop.mo` for 60 seconds with a power step, a
-single-chip power pulse and a pump-flow reduction. OpenModelica itself is **not
-required** for the Python benchmark and was **not** installed in the initial
-build environment, so a successful OpenModelica simulation has not been
-claimed. The model is intentionally lumped, not a `Modelica.Fluid` pipe/pump
-network. GitHub Actions contains an **unverified (until it runs)**
-`modelica-smoke` job to install `omc`, compile, run and compare the final die
-temperatures to the Python ODE. Local verification still returns code 2
-if `omc` is absent. `modelica/simulate.mos` includes a simple execution script.
+Alternatively, `omc modelica/simulate.mos` runs the supplied simulation
+script. The exported model is a lumped thermal network; hydraulic
+`Modelica.Fluid` components are part of the roadmap. The verification
+script returns exit code 2 when `omc` is unavailable.
 
-## Physical assumptions
+## Microchannel cold plates
 
-| Parameter | Synthetic value |
-|---|---:|
-| Package base | 36 × 36 × 3 mm copper |
-| Four dies | 12 × 12 × 0.5 mm silicon, 14 mm pitch |
-| Thermal interface | 0.1 mm, k = 5 W/(m·K) |
-| Top filler | Epoxy proxy, k = 0.7 W/(m·K) |
-| Die thermal conductivity | 130 W/(m·K) |
-| Total reference power | 800 W (4 × 200 W) |
-| Inlet coolant | 30 °C |
-| Convective coefficient | derived from Qu/Mudawar CFD Nu (approx. 80,568 W/(m²·K) equivalent at 4 L/min, idealized) |
-| Illustrative junction limit | 95 °C |
-| Cooling loop | 10 L equivalent water capacity; 300 W/K radiator UA |
+Two geometry profiles are available:
 
-Thermal properties are treated as constant. The fluid temperature on the
-coldplate face is fixed at 30 °C during FEM training/hold-out. In the 1D loop
-it changes dynamically. That means the low-order model **extrapolates** to
-pump fault conditions; fault predictions are qualitative without CFD or data.
+- **Literature benchmark:** 21 copper/water channels based on Qu & Mudawar
+  (2002), with nominal channel dimensions of 231 × 713 µm.
+- **36 mm concept:** 108 channels in a separate 36 × 36 mm plate at the
+  reference conditions of 800 W, 30 °C inlet and 4 L/min.
 
-## Architecture
+![21-channel copper/water cross-section](results/cfd/geometry_paper.png)
 
-```text
-    Four die power maps P_i(x,y,t)
-                  |
-       3D tetrahedral thermal FEM --- mesh/energy verification
-                  |
-   4 die-average observations, trained transients
-                  |
-        bounded-fit 8-node RC network ---- hold-out comparison
-                  |
-        +--------------------------+
-        |                          |
-  Python 1D coolant loop       Modelica 1D coolant loop (.mo)
-        |
-  Streamlit + Plotly interactive scenarios
+![36 mm cold-plate cross-section](results/cfd/geometry_design36.png)
+
+Generate a case and literature-reference plots using Python:
+
+```bash
+python scripts/prepare_openfoam.py --profile paper --level coarse --Re 890 --qeff 100 --case cfd_cases/qm890
+python scripts/build_validation_matrix.py --output cfd_cases/validation_matrix
+python scripts/cfd_reference_report.py
+python scripts/plot_figure_references.py
 ```
 
-`src/openchipcool/fem.py` assembles the linear FEM from scratch in a small,
-inspectable Python implementation; it is **not** FEniCSx or Elmer. This keeps
-the first iteration reproducible without huge solvers. Later iterations can
-compare the mesh and solution to FEniCSx/Elmer and use OpenFOAM CHT for the
-coldplate, but no results from those tools are implied by this repo.
-Published **conjugate-CFD-derived** Nusselt information is used as an
-idealized equivalent Robin coldplate approximation, not generated CFD.
+The matrix contains six operating-point families at three mesh resolutions.
+On a host with **OpenFOAM.com v2312** installed and its environment loaded,
+the runner performs meshing, region checks and a steady CHT solve:
 
-## Interpretation: averages vs hotspot peaks
+```bash
+python scripts/run_openfoam_matrix.py cfd_cases/validation_matrix/qm_q100_Re890_coarse --execute
+```
 
-The RC model is intentionally trained only on four **surface-averaged** die
-temperatures. The true FEM peak depends on a spatially concentrated hotspot
-source. A seemingly accurate RC mean must never be advertised as a safe
-junction temperature. The demo case can violate the hypothetical 95 °C
-hotspot threshold even if RC averages appear near/below that value. This is
-an engineering finding, not a failure of plotting.
+**Current CFD status:** generated case inputs and analytical/literature
+references are available. OpenFOAM mesh checks, converged CHT fields and
+experimental validation are pending; solver compatibility remains unverified.
+The plots in `results/cfd/` contain geometry or analytical/literature data.
 
-## Reproducibility and limitations
+See the [CFD methodology](docs/qu_mudawar_openfoam_protocol.md),
+[validation plan in Russian](docs/validation_plan_RU.md) and
+[component status](docs/cfd_status.md) for details.
 
-See [V&V methodology and limitations](docs/literature_and_vv.md) and
-[numerical verification notes](docs/verification.md). No
-commercial geometry, no own coldplate CFD, no experimentally measured h of this
-particular design, no actual pump/network hydraulics, and no thermal management
-firmware. FEM uses implicit Euler and lumped mass/Robin integration. It
-provides physical conservation checks; it is not safety-qualified software.
+## Scope and limitations
 
-## Future roadmap (not included)
+- RC states represent average die temperatures. Local hotspot maxima
+  come from the FEM field and can exceed the averages substantially.
+- FEM training uses a fixed coolant boundary temperature. Dynamic coolant
+  and low-flow scenarios extend beyond those training conditions;
+  pump-fault predictions are qualitative.
+- Package thermal properties are constant. Prepared CFD cases include
+  tabulated water transport properties; OpenFOAM execution is pending.
+- The CFD geometry covers the channel core. Manifolds, thermocouple holes,
+  heater slots and cover conduction are not yet represented in full.
+- Numerical verification and FEM/RC agreement do not establish experimental
+  validation. The 95 °C threshold is an illustrative scenario parameter.
 
-- Validate geometry/materials against independent Elmer/FEniCSx results.
-- Conjugate CFD in OpenFOAM to supply coldplate h(flow) and Δp(flow).
-- Full Modelica.Fluid pump, pipes, valves and heat exchanger.
-- Chip-to-package thermomechanics and interfacial contact uncertainty.
-- Data-driven experimental validation and commissioning-oriented reporting.
+See [sources and verification](docs/literature_and_vv.md) for model provenance.
 
-## Scientific sources
+## Roadmap
 
-- Qu & Mudawar (2002), experimental pressure / temperatures and conjugate-CFD Nu,
-  DOI: https://doi.org/10.1016/S0017-9310(01)00337-4
-- Lee, Garimella & Liu (2005), experimental water microchannels,
-  DOI: https://doi.org/10.1016/j.ijheatmasstransfer.2004.11.019
-- Lee & Garimella (2006), numerical thermal-entry correlations,
-  DOI: https://doi.org/10.1016/j.ijheatmasstransfer.2006.02.011
-- Celik et al. (2008), discretization uncertainty / GCI,
-  DOI: https://doi.org/10.1115/1.2960953
+- Run and verify the OpenFOAM benchmark across the prepared mesh levels.
+- Extend the benchmark geometry with manifolds, cover conduction and the
+  experimental thermocouple and heater details.
+- Compare pressure and temperature predictions with independently digitized
+  published observations and quantify uncertainty.
+- Derive heat-transfer and pressure-drop curves for the 36 mm plate and
+  couple them to the package and cooling-loop models.
+- Cross-check the thermal FEM against an independent solver.
+- Extend the Modelica loop with pump, pipe, valve and heat-exchanger hydraulics.
+- Add contact-property uncertainty and chip-to-package thermomechanics.
+
+## Documentation
+
+- [Обзор проекта на русском](docs/summary_RU.md)
+- [Sources, model provenance and numerical verification](docs/literature_and_vv.md)
+- [OpenFOAM benchmark methodology](docs/qu_mudawar_openfoam_protocol.md)
+- [План экспериментальной валидации](docs/validation_plan_RU.md)
+- [CFD component status](docs/cfd_status.md)
+
+## Scientific references
+
+- Qu & Mudawar (2002), microchannel pressure drop and heat transfer:
+  [DOI](https://doi.org/10.1016/S0017-9310(01)00337-4).
+- Lee, Garimella & Liu (2005), water microchannel experiments:
+  [DOI](https://doi.org/10.1016/j.ijheatmasstransfer.2004.11.019).
+- Lee & Garimella (2006), thermally developing flow correlations:
+  [DOI](https://doi.org/10.1016/j.ijheatmasstransfer.2006.02.011).
+- Celik et al. (2008), discretization uncertainty and GCI:
+  [DOI](https://doi.org/10.1115/1.2960953).
 
 ## License
 
-MIT for the original project code. Its dependencies retain their own licenses.
+[MIT](LICENSE). Dependencies retain their respective licenses.

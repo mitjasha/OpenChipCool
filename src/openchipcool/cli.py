@@ -61,7 +61,7 @@ def benchmark(args):
     err=rc_trace[:,:4]-holdout["means"]
     params.validation_rmse_K=float(np.sqrt(np.mean(err**2)))
     summary={
-        "project":"OpenChipCool Iteration 2", "status":"Numerical verification only; no experimental validation",
+        "project":"OpenChipCool", "status":"Numerical verification only; no experimental validation",
         "mesh":{"style":"interface aligned" if args.nx is None else "legacy unaligned",
                 "refinement":args.refinement if args.nx is None else None,
                 "nx":len(np.unique(f.coords[:,0]))-1,"ny":len(np.unique(f.coords[:,1]))-1,
